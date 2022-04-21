@@ -1,3 +1,11 @@
-<?php include '../view/partials/_top.html.php' ?>
-<h1><?= $article['title'] ?></h1>
-<?php include '../view/partials/_bottom.html.php' ?>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center"><?= $article['title'] ?></h1>
+            <p><?= $article['content'] ?></p>
+        </div>
+    </div>
+</div>
+
+
+<?php include '../view/partials/_comment-list.html.php' ?>
