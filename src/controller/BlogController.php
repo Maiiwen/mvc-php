@@ -8,9 +8,7 @@ class BlogController extends Controller
     public static function index()
     {
         $articles = ArticleManager::getAll();
-        $indexView = new View('blog', 'index', compact('articles','comments'));
-        // compact function with foreach
-        
+        $indexView = new View('blog', 'index', compact('articles'));
         $indexView->render('index', compact('articles'));
     }
     public static function article()
