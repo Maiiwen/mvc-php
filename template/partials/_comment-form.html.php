@@ -7,7 +7,7 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <form action="/?controller=blog&action=comment" method="post">
+                <form action="/blog/comment" method="post">
                     <div class="form-floating mb-3">
                         <input type="text" name="author" id="author" maxlength="64" class="form-control" placeholder="Nom" required>
                         <label for="author">Votre nom</label>
@@ -17,7 +17,7 @@
 
                         <label for="content">Votre commentaire</label>
                     </div>
-                    <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
+                    <input type="hidden" name="article_id" value="<?= $article->getId() ?>">
                     <input type="submit" class="btn btn-lg btn-primary" value="Envoyer">
                 </form>
             </div>

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Europe/Paris');
 
 if (!empty($_GET['controller'])) {
     $controller = ucfirst($_GET['controller']);
@@ -6,8 +7,8 @@ if (!empty($_GET['controller'])) {
     $controller = 'Home';
 }
 
-if (file_exists('../controller/' . $controller . 'Controller.php')) {
-    require '../controller/' . $controller . 'Controller.php';
+if (file_exists('../src/controller/' . $controller . 'Controller.php')) {
+    require '../src/controller/' . $controller . 'Controller.php';
 
     if (!empty($_GET['action'])) {
         $action = $_GET['action'];
@@ -16,7 +17,7 @@ if (file_exists('../controller/' . $controller . 'Controller.php')) {
     }
 
     if (method_exists(($controller . "Controller"), $action)) {
-        ($controller . "Controller")::$action(); // index() soit autre
+        ($controller . "Controller")::$action();
     } else {
         header("HTTP/1.1 404 Not Found");
         echo "Erreur 404 Not Found";

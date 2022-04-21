@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
+    <title><?= $title ?? 'MVC-BLOG' ?></title>
 </head>
 
 <body>
@@ -19,8 +20,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-                    <a class="nav-link" href="/?controller=blog">Blog</a>
+                    <a class="nav-link <?= empty($_GET['controller']) || $_GET['controller'] === 'home' ? 'active' : '' ?>" aria-current="page" href="/">Accueil</a>
+                    <a class="nav-link <?= !empty($_GET['controller']) && $_GET['controller'] === 'blog' ? 'active' : '' ?>" href="/blog">Blog</a>
                 </div>
             </div>
         </div>

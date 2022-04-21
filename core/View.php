@@ -2,6 +2,7 @@
 class View
 {
     private string $path;
+    private string $layout;
     private string $view;
     private array $data;
 
@@ -12,26 +13,37 @@ class View
      * @param  array $data
      * @return void
      */
-    public function __construct(string $path, string $view, array $data = [])
+    public function __construct(string $path, string $view, array $data = [], string $layout = 'layout')
     {
         $this
             ->setPath($path)
             ->setView($view)
-            ->setData($data);
+            ->setData($data)
+            ->setLayout($layout);
     }
 
     /**
-     * Render page with view and data
+     * Render page with template and layout
      *
      * @return void
      */
     public function render()
     {
         ob_start();
-        extract($this->getData());
-        include '../view/' . $this->getPath() . '/' . $this->getView() . '.html.php';
+        $this->template();
         $this->layout();
         ob_end_flush();
+    }
+
+    /**
+     * get template with data
+     *
+     * @return void
+     */
+    public function template()
+    {
+        extract($this->getData());
+        include '../template/' . $this->getPath() . '/' . $this->getView() . '.html.php';
     }
 
     /**
@@ -42,7 +54,7 @@ class View
     public function layout()
     {
         $content = ob_get_clean();
-        include '../view/layout/layout.html.php';
+        include '../template/layout/' . $this->getLayout() . '.html.php';
     }
 
     /**
@@ -101,6 +113,26 @@ class View
     public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of layout
+     */
+    public function getLayout()
+    {
+        return $this->layout;
+    }
+
+    /**
+     * Set the value of layout
+     *
+     * @return  self
+     */
+    public function setLayout($layout)
+    {
+        $this->layout = $layout;
 
         return $this;
     }
