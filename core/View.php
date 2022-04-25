@@ -1,6 +1,10 @@
 <?php
+
+namespace Core;
+
 class View
 {
+    private static $twig;
     private string $path;
     private string $layout;
     private string $view;
@@ -18,8 +22,14 @@ class View
         $this
             ->setPath($path)
             ->setView($view)
-            ->setData($data)
+            ->setData($data + ['_GET' => $_GET, '_POST' => $_POST])
             ->setLayout($layout);
+
+
+        $loader = new \Twig\Loader\FilesystemLoader('../template/');
+        self::$twig = new \Twig\Environment($loader, [
+            'cache' => '../cache/',
+        ]);
     }
 
     /**
@@ -42,8 +52,9 @@ class View
      */
     public function template()
     {
+
         extract($this->getData());
-        include '../template/' . $this->getPath() . '/' . $this->getView() . '.html.php';
+        self::$twig->load($this->getPath() . '/' . $this->getView() . '.html.twig')->display($this->getData());
     }
 
     /**
@@ -54,7 +65,7 @@ class View
     public function layout()
     {
         $content = ob_get_clean();
-        include '../template/layout/' . $this->getLayout() . '.html.php';
+        self::$twig->load('layout/' . $this->getLayout() . '.html.twig')->display($this->getData() + ['content' => $content]);
     }
 
     /**

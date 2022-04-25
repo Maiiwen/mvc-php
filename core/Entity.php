@@ -1,4 +1,7 @@
 <?php
+
+namespace Core;
+
 abstract class Entity
 {
     protected int $id = 0;
