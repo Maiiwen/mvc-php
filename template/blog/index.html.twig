@@ -1,0 +1,20 @@
+<h1>Blog</h1>
+<div class="container">
+	<div class="row">
+		{% for article in articles %}
+			<div class="col-6 my-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">{{ article.getTitle() }}
+						</h5>
+						<p class="card-text">
+							{{ article.getContent()|raw|length > 100 ? article.getContent()|raw|slice(0, 100) ~ '...' : article.getContent()|raw }}
+						</p>
+						<a href="/blog/article/{{ article.getId() }}" class="btn btn-primary">Voir plus -></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		<a href="/blog/edit/new"></a>
+	</div>
+</div>
