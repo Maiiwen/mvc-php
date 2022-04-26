@@ -1,11 +1,17 @@
 <?php
-require_once '../core/Entity.php';
+
+namespace App\Entity;
+
+use Core\Entity;
+use DateTime;
+
 class Article extends Entity
 {
+
     protected string $title;
     protected string $content;
     protected DateTime $created_at;
-    protected bool $is_archived;
+    protected int $is_archived = 0;
 
     /**
      * Get the value of title
@@ -31,6 +37,10 @@ class Article extends Entity
      * Get the value of content
      */
     public function getContent()
+    {
+        return BBCode($this->content);
+    }
+    public function getRawContent()
     {
         return $this->content;
     }

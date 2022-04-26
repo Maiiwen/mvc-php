@@ -1,5 +1,10 @@
 <?php
-require_once '../core/Entity.php';
+
+namespace App\Entity;
+
+use Core\Entity;
+use DateTime;
+
 class Comment extends Entity
 {
     protected string $content;

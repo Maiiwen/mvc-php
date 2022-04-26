@@ -1,6 +1,10 @@
 <?php
-require_once '../core/Manager.php';
-require_once '../src/entity/Article.php';
+
+namespace App\Model;
+
+use Core\Manager;
+use App\Entity\Article;
+
 class ArticleManager extends Manager
 {
 }

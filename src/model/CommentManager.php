@@ -1,5 +1,9 @@
 <?php
-require_once '../core/Manager.php';
+
+namespace App\Model;
+
+use Core\Manager;
+
 class CommentManager extends Manager
 {
 
