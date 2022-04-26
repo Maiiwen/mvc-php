@@ -39,7 +39,6 @@ abstract class Manager
     {
         $pdo = self::getPdoInstance();
         $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
-        var_dump($className);
         $sql = "SELECT * FROM " . lcfirst($className);
         $query = $pdo->query($sql);
         return self::hydrateCollection($query->fetchAll(), $className);
@@ -99,6 +98,5 @@ abstract class Manager
         $query = $pdo->prepare($sql);
         $query->execute($data + compact('id'));
         $query->debugDumpParams();
-        exit;
     }
 }
