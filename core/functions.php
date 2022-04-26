@@ -13,8 +13,8 @@ function BBCode($chaine)
     $chaine = str_replace("[u]", "<u>", $chaine);
     $chaine = str_replace("[/u]", "</u>", $chaine);
 
-    $chaine = str_replace("[center]", "<span class='text-center'>", $chaine);
-    $chaine = str_replace("[/center]", "</span>", $chaine);
+    $chaine = str_replace("[center]", "<div class='text-center'>", $chaine);
+    $chaine = str_replace("[/center]", "</div>", $chaine);
 
     $chaine = str_replace("[hr]", "<hr>", $chaine);
 
