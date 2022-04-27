@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Twig;
+
 class View
 {
     private static $twig;
@@ -24,12 +26,7 @@ class View
             ->setView($view)
             ->setData($data + ['_GET' => $_GET, '_POST' => $_POST])
             ->setLayout($layout);
-
-
-        $loader = new \Twig\Loader\FilesystemLoader('../template/');
-        self::$twig = new \Twig\Environment($loader, [
-            'cache' => '../cache/',
-        ]);
+        self::$twig = Twig::getTwigInstance();
     }
 
     /**
@@ -44,6 +41,15 @@ class View
         $this->layout();
         ob_end_flush();
     }
+
+    public function partialRender()
+    {
+        ob_start();
+        $this->template();
+        ob_end_flush();
+    }
+
+
 
     /**
      * get template with data
