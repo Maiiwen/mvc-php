@@ -18,7 +18,11 @@ spl_autoload_register(function ($classname) {
             $path = '../src/' . strtolower($namespace[1]) . '/' . $namespace[2] . '.php';
             break;
         case 'Core':
-            $path = '../core/' . $namespace[1] . '.php';
+            if ($namespace[1] === 'FormType') {
+                $path = '../core/FormType/' . $namespace[2] . '.php';
+            } else {
+                $path = '../core/' . $namespace[1] . '.php';
+            }
             break;
     }
     require_once $path;
