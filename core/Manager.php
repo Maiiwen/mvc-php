@@ -35,10 +35,15 @@ abstract class Manager
         return $collection;
     }
 
+    protected static function getClassName()
+    {
+        $className = str_replace('Manager', '', explode('\\', get_called_class())[2]);
+        return $className;
+    }
     public static function getAll()
     {
         $pdo = self::getPdoInstance();
-        $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
+        $className = self::getClassName();
         $sql = "SELECT * FROM " . lcfirst($className);
         $query = $pdo->query($sql);
         return self::hydrateCollection($query->fetchAll(), $className);
@@ -47,8 +52,27 @@ abstract class Manager
     public static function getById(int $id)
     {
         $pdo = self::getPdoInstance();
-        $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
+        $className = self::getClassName();
         $sql = "SELECT * FROM " . lcfirst($className)  . " WHERE id = :id";
+        $query = $pdo->prepare($sql);
+        $query->execute(compact('id'));
+        return self::hydrateCollection([$query->fetch()], $className)[0];
+    }
+
+    public static function getItems(array $items)
+    {
+        $pdo = self::getPdoInstance();
+        $className = self::getClassName();
+        $sql = "SELECT * FROM " . lcfirst($className) . " WHERE id IN (" . implode(',', $items) . ")";
+        $query = $pdo->query($sql);
+        return self::hydrateCollection($query->fetchAll(), $className);
+    }
+
+    public static function getItemsById(int $id, array $items)
+    {
+        $pdo = self::getPdoInstance();
+        $className = self::getClassName();
+        $sql = "SELECT * FROM " . lcfirst($className) . " WHERE id = :id AND id IN (" . implode(',', $items) . ")";
         $query = $pdo->prepare($sql);
         $query->execute(compact('id'));
         return self::hydrateCollection([$query->fetch()], $className)[0];
@@ -60,7 +84,7 @@ abstract class Manager
         unset($data['id']);
         $data['created_at'] = (new DateTime('now'))->format('Y-m-d H:i:s');
         $pdo = self::getPdoInstance();
-        $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
+        $className = self::getClassName();
         $sql = "INSERT INTO " . lcfirst($className) . " (";
         $sql .= implode(', ', array_keys($data));
         $sql .= ") VALUES (";
@@ -69,12 +93,13 @@ abstract class Manager
         $query = $pdo->prepare($sql);
         $query->execute($data);
         $object->setId($pdo->lastInsertId());
+        return $object->getId();
     }
 
     public static function delete(int $id)
     {
         $pdo = self::getPdoInstance();
-        $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
+        $className = self::getClassName();
         $sql = "DELETE FROM " . lcfirst($className) . " WHERE id = :id";
         $query = $pdo->prepare($sql);
         $query->execute(compact('id'));
@@ -87,7 +112,7 @@ abstract class Manager
         $id = $data['id'];
         unset($data['id']);
         $pdo = self::getPdoInstance();
-        $className = str_replace('Manager', '', explode('\\', get_called_class()))[2];
+        $className = self::getClassName();
         $sql = "UPDATE " . lcfirst($className) . " SET ";
         foreach ($data as $key => $value) {
             $sql .= $key . " = :" . $key . ", ";
@@ -97,6 +122,5 @@ abstract class Manager
 
         $query = $pdo->prepare($sql);
         $query->execute($data + compact('id'));
-        $query->debugDumpParams();
     }
 }
