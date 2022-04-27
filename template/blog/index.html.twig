@@ -1,16 +1,24 @@
-<h1>Blog</h1>
 <div class="container">
+	<div class="my-3 d-flex justify-content-between">
+		<h1>Blog</h1>
+		<a href="/blog/new" class="btn btn-primary text-end">Ajouter</a>
+	</div>
 	<div class="row">
 		{% for article in articles %}
 			<div class="col-6 my-3">
 				<div class="card">
 					<div class="card-body">
+
 						<h5 class="card-title">{{ article.getTitle() }}
 						</h5>
 						<p class="card-text">
-							{{ article.getContent()|raw|length > 100 ? article.getContent()|raw|slice(0, 100) ~ '...' : article.getContent()|raw }}
+							{{ (article.getContent()|striptags)|length > 100 ? article.getContent()|striptags|slice(0, 100) ~ '...' : article.getContent()|striptags }}
 						</p>
 						<a href="/blog/article/{{ article.getId() }}" class="btn btn-primary">Voir plus -></a>
+						<form action="/blog/delarticle" method="post">
+							<input type="hidden" name="id" value="{{ article.getId() }}">
+							<input type="submit" name="submit" onclick="return confirm('Voulez-vous supprimer l'article intitulé : {{ article.getTitle() }}')" class="btn btn-danger" value="Supprimer">
+						</form>
 					</div>
 				</div>
 			</div>
