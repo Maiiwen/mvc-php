@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use Core\View;
 use Core\Controller;
 use App\Services\ArticleService;
 use App\Services\CommentService;
-use Core\View;
+use App\FormType\ArticleFormtype;
+use App\FormType\CommentFormtype;
 
 class BlogController extends Controller
 {
@@ -20,7 +22,7 @@ class BlogController extends Controller
         if (!empty($_GET['id'])) {
             $article = ArticleService::getAllById($_GET['id']);
             $comments = CommentService::getAllByArticleId($_GET['id']);
-            $commentForm = CommentService::getForm($_GET['id']);
+            $commentForm = CommentFormtype::getForm($_GET['id']);
             $dataList = ['article', 'comments', 'commentForm'];
             $articleView = new View('blog', 'article', compact($dataList));
             $articleView->render('article', compact('article', 'comments'));
@@ -81,12 +83,12 @@ class BlogController extends Controller
     {
         if (!empty($_GET['id'])) {
             if ($_GET['id'] === 'new') {
-                $form = ArticleService::getForm();
+                $form = ArticleFormtype::getForm();
                 $articleView = new View('blog', 'edit', compact('form'));
                 $articleView->render('edit');
             } else {
                 $article = ArticleService::getAllById($_GET['id']);
-                $form = ArticleService::getForm($article);
+                $form = ArticleFormtype::getForm($article);
                 $articleView = new View('blog', 'edit', compact('form'));
                 $articleView->render('edit', compact('article'));
             }
