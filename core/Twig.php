@@ -3,8 +3,11 @@
 namespace Core;
 
 use Core\View;
-use Core\FormType\SubmitType;
 use App\Form\Form;
+use Twig\Environment;
+use Twig\TwigFunction;
+use Core\FormType\SubmitType;
+use Twig\Loader\FilesystemLoader;
 
 class Twig
 {
@@ -15,8 +18,8 @@ class Twig
     public static function getTwigInstance()
     {
         if (self::$twig === null) {
-            $loader = new \Twig\Loader\FilesystemLoader('../template/');
-            self::$twig = new \Twig\Environment($loader, [
+            $loader = new FilesystemLoader('../template/');
+            self::$twig = new Environment($loader, [
                 'cache' => false,
             ]);
             self::setTwigFunctions();
@@ -27,7 +30,7 @@ class Twig
 
     public static function setTwigFunctions()
     {
-        $formFunc = new \Twig\TwigFunction('generateForm', function (Form $form) {
+        $formFunc = new TwigFunction('generateForm', function (Form $form) {
             $formView = new View('partials', '_form', compact('form'));
             $formView->partialRender();
         });
