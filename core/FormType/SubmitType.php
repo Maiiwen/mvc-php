@@ -22,6 +22,6 @@ class SubmitType
             'name' => $this->name,
             'value' => $this->value,
             'label' => $this->label
-        ]))->partialRender();
+        ]))->render();
     }
 }

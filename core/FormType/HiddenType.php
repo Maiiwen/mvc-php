@@ -20,6 +20,6 @@ class HiddenType
         (new View('formtype', 'HiddenType', [
             'name' => $this->name,
             'value' => $this->value
-        ]))->partialRender();
+        ]))->render();
     }
 }

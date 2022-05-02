@@ -25,6 +25,6 @@ class TextareaType
             'value' => $this->value,
             'label' => $this->label,
             'id' => $this->id
-        ]))->partialRender();
+        ]))->render();
     }
 }

@@ -20,6 +20,6 @@ class TextType
             'name' => $this->name,
             'value' => $this->value,
             'label' => $this->label
-        ]))->partialRender();
+        ]))->render();
     }
 }
