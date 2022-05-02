@@ -19,13 +19,12 @@ class View
      * @param  array $data
      * @return void
      */
-    public function __construct(string $path, string $view, array $data = [], string $layout = 'layout')
+    public function __construct(string $path, string $view, array $data = [])
     {
         $this
             ->setPath($path)
             ->setView($view)
-            ->setData($data + ['_GET' => $_GET, '_POST' => $_POST])
-            ->setLayout($layout);
+            ->setData($data + ['_GET' => $_GET, '_POST' => $_POST]);
         self::$twig = Twig::getTwigInstance();
     }
 
@@ -36,42 +35,8 @@ class View
      */
     public function render()
     {
-        ob_start();
-        $this->template();
-        $this->layout();
-        ob_end_flush();
-    }
-
-    public function partialRender()
-    {
-        ob_start();
-        $this->template();
-        ob_end_flush();
-    }
-
-
-
-    /**
-     * get template with data
-     *
-     * @return void
-     */
-    public function template()
-    {
-
         extract($this->getData());
         self::$twig->load($this->getPath() . '/' . $this->getView() . '.html.twig')->display($this->getData());
-    }
-
-    /**
-     * layout
-     *
-     * @return void
-     */
-    public function layout()
-    {
-        $content = ob_get_clean();
-        self::$twig->load('layout/' . $this->getLayout() . '.html.twig')->display($this->getData() + ['content' => $content]);
     }
 
     /**
@@ -130,26 +95,6 @@ class View
     public function setPath($path)
     {
         $this->path = $path;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of layout
-     */
-    public function getLayout()
-    {
-        return $this->layout;
-    }
-
-    /**
-     * Set the value of layout
-     *
-     * @return  self
-     */
-    public function setLayout($layout)
-    {
-        $this->layout = $layout;
 
         return $this;
     }
