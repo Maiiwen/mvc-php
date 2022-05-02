@@ -9,23 +9,20 @@ require_once '../core/functions.php';
 
 
 spl_autoload_register(function ($classname) {
-    $classname = str_replace('\\', '/', $classname);
-    // var_dump($classname);
-    $namespace = explode('/', $classname);
-    // var_dump($namespace);
-    switch ($namespace[0]) {
-        case 'App':
-            $path = '../src/' . strtolower($namespace[1]) . '/' . $namespace[2] . '.php';
-            break;
-        case 'Core':
-            if ($namespace[1] === 'FormType') {
-                $path = '../core/FormType/' . $namespace[2] . '.php';
-            } else {
-                $path = '../core/' . $namespace[1] . '.php';
-            }
-            break;
-    }
-    require_once $path;
+    $classname = str_replace(
+        [
+            '\\',
+            'App',
+            'Core'
+        ],
+        [
+            '/',
+            '../src/',
+            '../core/'
+        ],
+        $classname
+    );
+    require_once $classname . '.php';
 });
 
 if (!empty($_GET['controller'])) {
