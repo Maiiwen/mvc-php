@@ -3,7 +3,7 @@
 namespace Core;
 
 use Core\View;
-use App\Form\Form;
+use Core\Form;
 use Twig\Environment;
 use Twig\TwigFunction;
 use Core\FormType\SubmitType;
@@ -32,7 +32,7 @@ class Twig
     {
         $formFunc = new TwigFunction('generateForm', function (Form $form) {
             $formView = new View('partials', '_form', compact('form'));
-            $formView->partialRender();
+            $formView->render();
         });
 
         self::$functions = [
